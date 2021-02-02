@@ -8,11 +8,57 @@ import SidebarItemComponent from '../sidebarItem';
 class SidebarComponent extends React.Component {
   constructor() {
     super();
+    this.state = {
+      addingNote: false,
+      title: null
+    }
+  }
+
+  newNoteBtnClick = () => {
+    console.log('New Button Click')
+    this.setState({
+      addingNote: !this.state.addingNote,
+      title: null
+    })
+  }
+
+  updateTitle = (text) => {
+    console.log(text)
   }
 
   render() {
+    const {
+      notes,
+      classes,
+      selectedNoteIndex
+    } = this.props
+    const { addingNote } = this.state
+
     return (
-      <h3> Sidebar </h3>
+      <div className={classes.sidebarContainer}>
+        <Button
+          onClick={this.newNoteBtnClick}
+          className={classes.newNoteBtn}
+        >
+          { addingNote?
+            'Cancel':
+            'New Note'
+          }
+        </Button>
+
+        {
+          addingNote &&
+            <div>
+              <input
+                type="text"
+                className={classes.newNoteInput}
+                placeholder="Enter note title"
+                onKeyUp={(e) => this.updateTitle(e.target.value)}
+              />
+            </div>
+        }
+
+      </div>
     )
   }
 }

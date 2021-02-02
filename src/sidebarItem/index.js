@@ -1,11 +1,11 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import styles from './styles';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { ListItem, ListItemText} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+// import { List } from '@material-ui/core';
+
+import styles from './styles';
 import { removeHTMLTags } from '../helpers';
-import { List } from '@material-ui/core';
 
 function SidebarItemComponent({
   _index,

@@ -1,8 +1,8 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { Divider, Button, List } from '@material-ui/core';
+
 import styles from './styles';
-import List from '@material-ui/core/List';
-import { Divider, Button } from '@material-ui/core';
 import SidebarItemComponent from '../sidebarItem';
 
 class SidebarComponent extends React.Component {
@@ -36,9 +36,7 @@ class SidebarComponent extends React.Component {
     console.log('Delete Note')
   }
 
-  selectNote = () => {
-    console.log('Select Note')
-  }
+  selectNote = (n, i) => this.props.selectNote(n, i)
 
   render() {
     const {
@@ -47,7 +45,6 @@ class SidebarComponent extends React.Component {
       selectedNoteIndex
     } = this.props
     const { addingNote } = this.state
-    console.log(notes)
 
     if (notes) {
       return (

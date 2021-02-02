@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactQuill from 'react-quill';
-import debounce from '../helpers';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import { withStyles } from '@material-ui/core/styles';
+
+import debounce from '../helpers';
 import styles from './styles';
 
 class EditorComponent extends React.Component {
@@ -12,6 +13,28 @@ class EditorComponent extends React.Component {
       text: '',
       title: '',
       id: ''
+    }
+  }
+
+  componentDidMount = () => {
+    const { body, title, id } = this.props.selectedNote
+
+    this.setState({
+      text: body,
+      title: title,
+      id: id
+    })
+  }
+
+  componentDidUpdate = () => {
+    const { body, title, id } = this.props.selectedNote
+
+    if (id !== this.state.id) {
+      this.setState({
+        text: body,
+        title: title,
+        id: id
+      })
     }
   }
 

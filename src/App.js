@@ -49,6 +49,35 @@ class App extends React.Component {
       })
   }
 
+  newNote = async (title) => {
+    const note = {
+      title,
+      body: '',
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }
+
+    const newNote = await firebase
+      .firestore()
+      .collection('notes')
+      .add({
+        title: note.title,
+        body: note.body,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      })
+    console.log(newNote.id)
+
+    const newId = newNote.id
+    await this.setState({ notes: [ ...this.state.notes, note ]})
+    const newNoteIndex = this.state.notes.indexOf(this.state.notes.filter(
+      _note => _note.id === newId)[0]
+    )
+    console.log(newNoteIndex)
+    this.setState({
+      selectNote: this.state.notes[newNoteIndex],
+      selectedNoteIndex: newNoteIndex
+    })
+  }
+
   render() {
     const { notes, selectedNoteIndex, selectedNote } = this.state
 

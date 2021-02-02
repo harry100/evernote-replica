@@ -38,7 +38,7 @@ class App extends React.Component {
       <div>
         <SidebarComponent
           selectedNoteIndex={selectedNoteIndex}
-          notest={notes}
+          notes={notes}
         />
         <EditorComponent></EditorComponent>
       </div>

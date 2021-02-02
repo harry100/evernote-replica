@@ -37,6 +37,18 @@ class App extends React.Component {
     selectedNote: note
   })
 
+  noteUpdate = (id, note) => {
+    firebase
+      .firestore()
+      .collection('notes')
+      .doc(id)
+      .update({
+        title: note.title,
+        body: note.body,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      })
+  }
+
   render() {
     const { notes, selectedNoteIndex, selectedNote } = this.state
 
@@ -55,6 +67,7 @@ class App extends React.Component {
               selectedNote={selectedNote}
               selectedNoteIndex={selectedNoteIndex}
               notes={notes}
+              noteUpdate={this.noteUpdate}
             />
         }
       </div>

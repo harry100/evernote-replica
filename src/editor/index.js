@@ -38,13 +38,16 @@ class EditorComponent extends React.Component {
     }
   }
 
-  updateBody = async (val) => {
-    await this.setState({ text: val })
+  updateBody = (val) => {
+    this.setState({ text: val })
     this.update()
   }
 
   update = debounce(() => {
-    console.log('UPDATING FIREBASE')
+    this.props.noteUpdate(this.state.id, {
+      title: this.state.title,
+      body: this.state.text
+    })
   }, 2000)
 
   render() {

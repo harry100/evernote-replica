@@ -1,6 +1,11 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Divider, Button, List } from '@material-ui/core';
+import {
+  Divider,
+  Button,
+  List,
+  Snackbar
+} from '@material-ui/core';
 
 import styles from './styles';
 import SidebarItemComponent from '../sidebarItem';
@@ -10,7 +15,8 @@ class SidebarComponent extends React.Component {
     super();
     this.state = {
       addingNote: false,
-      title: null
+      title: null,
+      openSnack: false
     }
   }
 
@@ -29,11 +35,19 @@ class SidebarComponent extends React.Component {
   }
 
   newNote = () => {
-    this.props.newNote(this.state.title)
-    this.setState({
-      title: null,
-      addingNote: false
-    })
+    const { title } = this.state
+    if (
+      title &&
+      title.length > 0
+    ) {
+      this.props.newNote(this.state.title)
+      this.setState({
+        title: null,
+        addingNote: false
+      })
+    } else {
+      this.setState({ openSnack: true })
+    }
   }
 
   deleteNote = (note) => {
@@ -42,13 +56,21 @@ class SidebarComponent extends React.Component {
 
   selectNote = (n, i) => this.props.selectNote(n, i)
 
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({ openSnack: false })
+  };
+
   render() {
     const {
       notes,
       classes,
       selectedNoteIndex
     } = this.props
-    const { addingNote } = this.state
+    const { addingNote, openSnack } = this.state
 
     if (notes) {
       return (
@@ -62,6 +84,12 @@ class SidebarComponent extends React.Component {
               'New Note'
             }
           </Button>
+          <Snackbar
+            open={openSnack}
+            onClose={this.handleClose}
+            message="Please enter a title."
+            autoHideDuration={3000}
+          />
 
           {
             addingNote &&

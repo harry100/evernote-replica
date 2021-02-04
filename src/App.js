@@ -1,5 +1,6 @@
 import React from "react"
 import firebase from "firebase"
+import SnackBar from '@material-ui/core/Snackbar'
 
 import "./App.css"
 import SidebarComponent from './sidebar'
@@ -12,6 +13,7 @@ class App extends React.Component {
       selectedNoteIndex: null,
       selectedNote: null,
       notes: null,
+      openSnack: false
     }
   }
 
@@ -79,7 +81,8 @@ class App extends React.Component {
     const noteIndex = this.state.notes.indexOf(note)
 
     await this.setState({
-      notes: this.state.notes.filter(_note => _note !== note)
+      notes: this.state.notes.filter(_note => _note !== note),
+      openSnack: true
     })
     if (this.state.selectedNoteIndex === noteIndex) {
       this.setState({
@@ -103,11 +106,25 @@ class App extends React.Component {
         .delete()
     }
 
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({ openSnack: false })
+  }
+
   render() {
-    const { notes, selectedNoteIndex, selectedNote } = this.state
+    const { notes, selectedNoteIndex, selectedNote, openSnack } = this.state
 
     return (
       <div>
+        <SnackBar
+          open={openSnack}
+          handleClose={this.handleClose}
+          message="Note Deletion Success."
+          autoHideDuration={3000}
+        />
         <SidebarComponent
           selectedNoteIndex={selectedNoteIndex}
           notes={notes}

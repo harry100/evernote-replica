@@ -15,7 +15,7 @@ class SidebarComponent extends React.Component {
   }
 
   newNoteBtnClick = () => {
-    console.log('New Button Click')
+    ('New Button Click')
     this.setState({
       addingNote: !this.state.addingNote,
       title: null
@@ -36,8 +36,8 @@ class SidebarComponent extends React.Component {
     })
   }
 
-  deleteNote = () => {
-    console.log('Delete Note')
+  deleteNote = (note) => {
+    this.props.deleteNote(note)
   }
 
   selectNote = (n, i) => this.props.selectNote(n, i)

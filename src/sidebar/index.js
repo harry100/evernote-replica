@@ -21,7 +21,6 @@ class SidebarComponent extends React.Component {
   }
 
   newNoteBtnClick = () => {
-    ('New Button Click')
     this.setState({
       addingNote: !this.state.addingNote,
       title: null
@@ -62,7 +61,13 @@ class SidebarComponent extends React.Component {
     }
 
     this.setState({ openSnack: false })
-  };
+  }
+
+  _handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      this.newNote()
+    }
+  }
 
   render() {
     const {
@@ -99,6 +104,8 @@ class SidebarComponent extends React.Component {
                   className={classes.newNoteInput}
                   placeholder="Enter note title"
                   onKeyUp={(e) => this.updateTitle(e.target.value)}
+                  onKeyDown={this._handleKeyDown}
+                  autoFocus
                 />
                 <Button
                   className={classes.newNoteSubmitBtn}

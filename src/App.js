@@ -21,6 +21,7 @@ class App extends React.Component {
     firebase
       .firestore()
       .collection("notes")
+      .orderBy("timestamp", "desc")
       .onSnapshot((serverUpdate) => {
         const notes = serverUpdate.docs.map((_doc) => {
           const data = _doc.data()
@@ -60,21 +61,14 @@ class App extends React.Component {
     const newNote = await firebase
       .firestore()
       .collection('notes')
-      .add({
-        title: note.title,
-        body: note.body,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      })
+      .add(note)
 
     const newId = newNote.id
     await this.setState({ notes: [ ...this.state.notes, note ]})
     const newNoteIndex = this.state.notes.indexOf(this.state.notes.filter(
       _note => _note.id === newId)[0]
     )
-    this.setState({
-      selectNote: this.state.notes[newNoteIndex],
-      selectedNoteIndex: newNoteIndex
-    })
+    this.selectNote(this.state.notes[newNoteIndex], 0)
   }
 
   deleteNote = async (note) => {

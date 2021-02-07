@@ -118,7 +118,7 @@ class SidebarComponent extends React.Component {
 
           <List>
             {
-              notes.length > 0  &&
+              notes.length > 0 ?
                 notes.map((_note, _index) => {
                   return (
                     <div key={_index}>
@@ -132,7 +132,9 @@ class SidebarComponent extends React.Component {
                       <Divider />
                     </div>
                   )
-                })
+                }):
+                !addingNote &&
+                  <p className={classes.noNote}> Start creating notes </p>
             }
           </List>
 
